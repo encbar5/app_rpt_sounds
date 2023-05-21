@@ -1,0 +1,12 @@
+debian/control is semi-generated from the script ./debian/mkcontrol.
+This is done by running:
+
+  ./debian/rules update-control
+
+It will also generate / update most of the per-language debian/* config
+files, except the postinst and prerm scripts, which you'll have to
+manually upgrade.
+
+FIXME: fix mkcontrol and debian/rules to work with the en_AU sound file
+set.
+

@@ -1,0 +1,14 @@
+Package: asterisk-core-sounds-en-rpt
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: asterisk-core-sounds-en
+Conflicts: asterisk-sounds-main
+Replaces: asterisk-sounds-main
+Description: asterisk PBX sound files specific to app_rpt.
+ Asterisk is an Open Source PBX and telephony toolkit. It is, in a
+ sense, middleware between Internet and telephony channels on the
+ bottom, and Internet and telephony applications at the top.
+ .
+ Asterisk includes a set of standard sound files in various formats.
+ This package contains the sound files specifig to app_rpt in English
+ (US, by Allison Smith) in various formats.
