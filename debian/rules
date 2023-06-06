@@ -1,31 +1,12 @@
 #!/usr/bin/make -f
 
-BASE_URL=http://downloads.asterisk.org/pub/telephony/sounds/releases/
 PACKAGE=$(shell sed -e '2,$$d' -e 's/ .*//' debian/changelog)
 VERSION=$(shell sed -e '2,$$d' -e 's/^[^(]*(\([^-]*\)-.*)*)*/\1/' debian/changelog)
 LANGS=en
 FORMATS=rpt
 TMPDIR=tmp
 # or . if you prefer
-TARGET_DIR=../tarballs
-#TARGET_DIR=..
 
-PKGNAME=$(PACKAGE)-$(VERSION)
-PKGDIR=$(TMPDIR)/$(PKGNAME)
-
-TARBALL_NAMES=$(foreach lang,$(LANGS),$(foreach fmt,$(FORMATS),$(lang)-$(fmt)))
-TARBALLS_EXTRA=$(TARBALL_NAMES:%=$(TARGET_DIR)/$(PACKAGE)_$(VERSION).orig-%.tar.gz)
-
-TARBALLS_EXTRA_SHA1=$(TARBALLS_EXTRA:%=%.sha1)
-
-$(TARGET_DIR)/$(PACKAGE)_$(VERSION).orig-%.tar.gz.sha1:
-	wget -q -O $@ -c $(BASE_URL)/$(PACKAGE)-$*-$(VERSION).tar.gz.sha1
-
-$(TARGET_DIR)/$(PACKAGE)_$(VERSION).orig-%.tar.gz: \
-	$(TARGET_DIR)/$(PACKAGE)_$(VERSION).orig-%.tar.gz.sha1
-	set -e; cd $(@D); \
-		wget -q -c $(BASE_URL)/$(PACKAGE)-$*-$(VERSION).tar.gz
-	ln -fs $(PACKAGE)-$*-$(VERSION).tar.gz $@
 
 %:
 	dh $@
@@ -37,7 +18,6 @@ override_dh_install:
 		\( -name '[CL]*' -o -name '*.txt' \) -exec rm -f \{\} \;
 
 override_dh_installchangelogs:
-	dh_installchangelogs -pasterisk-core-sounds-en en-rpt/CHANGES-asterisk-core-en-$(VERSION)
 	dh_installchangelogs
 
 print-version:
@@ -45,16 +25,4 @@ print-version:
 	@echo formats: $(FORMATS)
 	@echo package: $(PACKAGE)
 	@echo version: $(VERSION)
-	@echo names: $(TARBALLS_EXTRA)
 
-get-orig-source: $(TARBALLS_EXTRA) $(TARBALLS_EXTRA_SHA1)
-	set -e; for tarball in $(TARBALLS_EXTRA); do \
-	  filename="$${tarball##*/}"; \
-	  (cd $(TARGET_DIR); sha1sum --quiet -c $$filename.sha1) \
-	done
-	rm -rf $(PKGDIR)
-	mkdir -p $(PKGDIR)
-	# Empty tarball
-	tar czf $(TARGET_DIR)/$(PACKAGE)_$(VERSION).orig.tar.gz \
-		-C $(TMPDIR) $(PACKAGE)-$(VERSION)
-	rm -rf $(TMPDIR)

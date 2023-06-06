@@ -1,3 +1,13 @@
+Source: asterisk-core-sounds-en-rpt
+Section: comm
+Priority: optional
+Maintainer: KI5KQB <pkg-voip-maintainers@lists.alioth.debian.org>
+Uploaders: Bernhard Schmidt <berni@debian.org>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.8.0
+Vcs-Git: git@github.com:encbar5/app_rpt_sounds.git
+Vcs-Browser: https://github.com/encbar5/app_rpt_sounds
+
 Package: asterisk-core-sounds-en-rpt
 Architecture: all
 Depends: ${misc:Depends}
@@ -12,3 +22,4 @@ Description: asterisk PBX sound files specific to app_rpt.
  Asterisk includes a set of standard sound files in various formats.
  This package contains the sound files specifig to app_rpt in English
  (US, by Allison Smith) in various formats.
+
